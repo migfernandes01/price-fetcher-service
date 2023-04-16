@@ -2,6 +2,10 @@ package main
 
 import (
   "flag"
+  //"context"
+  //"fmt"
+
+  //"github.com/migfernandes01/price-fetcher-service/client"
 )
 
 func main() {
@@ -16,4 +20,13 @@ func main() {
 
   // start HTTP server
   server.ServeHTTP()
+
+  // use go client to fetch price:
+  //client := client.New("http://localhost:8080/price")
+  //price, err := client.FetchPrice(context.Background(), "BTC")
+  //if err != nil {
+    //panic(err)
+  //}
+  //fmt.Printf("price: %v", price)
+  //return
 }

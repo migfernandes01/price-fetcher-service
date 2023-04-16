@@ -1,17 +1,14 @@
 package main
 
 import (
-  "context"
-  "net/http"
-  "math/rand"
-  "encoding/json"
-)
+	"context"
+	"encoding/json"
 
-// struct that defines the response type when fetching a price
-type PriceResponse struct {
-  Ticker string `json:"ticker"`
-  Price float64 `json:"price"`
-}
+	"math/rand"
+	"net/http"
+
+	"github.com/migfernandes01/price-fetcher-service/types"
+)
 
 // type of an API function
 type APIFunc func(context.Context, http.ResponseWriter, *http.Request) error 
@@ -61,7 +58,7 @@ func (s *JSONAPIServer) handleFetchPrice(ctx context.Context, w http.ResponseWri
   }
  
   // create response of type PriceResponse
-  priceResponse := PriceResponse{
+  priceResponse := types.PriceResponse{
     Ticker: ticker,
     Price: price,
   }
