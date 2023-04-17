@@ -7,7 +7,26 @@ import (
   "encoding/json"
 
   "github.com/migfernandes01/price-fetcher-service/types"
+  "github.com/migfernandes01/price-fetcher-service/proto"
+  "google.golang.org/grpc"
 )
+
+// create and run GRPC client
+func NewGRPCClient(remoteAddr string) (proto.PriceFetcherClient, error) {
+  // create a connection to the grpc server
+  conn, err := grpc.Dial(remoteAddr, grpc.WithInsecure())
+  if err != nil {
+    return nil, err
+  }
+
+  // defer the close of the connection
+  // defer conn.Close()
+
+  // create a new grpc client
+  c := proto.NewPriceFetcherClient(conn)
+
+  return c, nil
+}
 
 type Client struct {
   endpoint string

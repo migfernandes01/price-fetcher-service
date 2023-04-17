@@ -13,7 +13,7 @@ type loggingService struct {
 
 // constructor for the logging service
 func NewLoggingService(next PriceFetcher) PriceFetcher {
-  return &loggingService{
+  return &loggingService{ 
     next: next,
   }
 }

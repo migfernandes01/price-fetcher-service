@@ -14,6 +14,7 @@ type PriceFetcher interface {
 type priceFetcher struct {}
 
 func (s *priceFetcher) FetchPrice(ctx context.Context, ticker string) (float64, error) {
+  // TODO: call external API to fetch price
   return MockPriceFetcher(ctx, ticker)
 }
 

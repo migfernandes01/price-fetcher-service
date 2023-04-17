@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+// define the package name
+option go_package = "github.com/migfernandes01/price-fetcher-service/proto";
+
+// definition of the PriceRequest message
+message PriceRequest {
+  string ticker = 1;
+}
+
+// definition of the PriceResponse message
+message PriceResponse {
+  string ticker = 1;
+  float price = 2;
+}
+
+// PriceFetcher service definition
+service PriceFetcher {
+  rpc FetchPrice (PriceRequest) returns (PriceResponse);
+}
