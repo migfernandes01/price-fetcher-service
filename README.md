@@ -1,7 +1,7 @@
 ## Small project to demonstrate how to write and strucutre micro-services in Go
 
 This project implements both an HTTP server and a gRPC server to fetch crypto prices. This is an example of how to strucutre a go service
-by separating concerns and implementing
+by separating concerns and implementing fully functional servers and clients with a very low number of external dependencies.
 
 To run it locally, run `make run`.
 To generate proto files, run `make proto`.
