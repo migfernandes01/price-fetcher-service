@@ -22,5 +22,6 @@ The ticker (BTC, ETH...) will be extracted from the query params on the `/price`
 
 ### TODO:
 
-[] Use 3rd party service to fetch real crypto prices
-[] Dockerize service
+[ ] Use 3rd party service to fetch real crypto prices
+
+[ ] Dockerize service
