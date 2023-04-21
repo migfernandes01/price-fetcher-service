@@ -1,8 +1,12 @@
 package main
 
 import (
-  "context"
-  "fmt"
+	"context"
+	"encoding/json"
+	"fmt"
+	"net/http"
+	"strconv"
+	"strings"
 )
 
 // interface that defines the behavior of the service
@@ -13,21 +17,41 @@ type PriceFetcher interface {
 // service implementation
 type priceFetcher struct {}
 
+type BinanceApiResponse struct {
+  Price string  `json:"price"`
+  Symbol string `json:"symbol"`
+}
+
 func (s *priceFetcher) FetchPrice(ctx context.Context, ticker string) (float64, error) {
-  // TODO: call external API to fetch price
-  return MockPriceFetcher(ctx, ticker)
+  // convert ticket to uppercase
+  ticker = strings.ToUpper(ticker)
+  price, err := fetchPriceFromApi(ticker)
+  if err != nil {
+    return 0, fmt.Errorf("error when fetching price from api: %w", err)
+  }
+
+  return price, nil
 }
 
-// mock price for BTC and ETH
-var priceMock = map[string]float64{
-  "BTC": 20000,
-  "ETH": 3000,
-}
+func fetchPriceFromApi(ticker string) (float64, error) {
+  // build symbol (bincance api format)
+  symbol := ticker + "USD"
 
-func MockPriceFetcher(ctx context.Context, ticker string) (float64, error) {
-  price, ok := priceMock[ticker]
-  if !ok {
-    return 0, fmt.Errorf("price not found for %s", ticker)
+  // call http api
+  res, err := http.Get("https://api.binance.us/api/v3/ticker/price?symbol=" + symbol)
+  if err != nil {
+    return 0, fmt.Errorf("error when calling binance api: %w", err)
+  }
+
+  apiRes := BinanceApiResponse{}
+  err = json.NewDecoder(res.Body).Decode(&apiRes)
+  if err != nil {
+    return 0, fmt.Errorf("error when decoding binance api response: %w", err)
+  }
+
+  price, err := strconv.ParseFloat(apiRes.Price, 64)
+  if err != nil {
+    return 0, fmt.Errorf("error when parsing price from string to float64: %w", err)
   }
 
   return price, nil
